@@ -1,16 +1,18 @@
-func twoSum(nums []int, target int) []int {
-	m := make(map[int]int)
-	for i := 0; i < len(nums); i++ {
-		m[nums[i]] = i
-	}
-
-	for i := 0; i < len(nums); i++ {
-		c := target - nums[i]
-		j, ok := m[c]
-		if ok && i != j {
-			return []int{i+1, j+1}
-		}
-	}
-
-	return []int{0, 0}
+func twoSum(numbers []int, target int) []int {
+    var l,r = 0,len(numbers)-1
+    var res []int
+    for l<r {
+        if numbers[l]+numbers[r]==target{
+            res=append(res,l+1,r+1)
+            break
+        }
+        
+        if numbers[l]+numbers[r]<target{
+            l++
+        }else{
+            r--
+        }
+    }
+    
+    return res
 }
