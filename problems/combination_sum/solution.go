@@ -8,6 +8,7 @@ func combinationSum(candidates []int, target int) [][]int {
 	return res
 }
 
+
 func findcombinationSum(nums []int, target, index int, c []int, res *[][]int) {
 	if target <= 0 {
 		if target == 0 {
@@ -15,15 +16,14 @@ func findcombinationSum(nums []int, target, index int, c []int, res *[][]int) {
 			copy(b, c)
 			*res = append(*res, b)
 		}
+		return
 	}
-
 	for i := index; i < len(nums); i++ {
-		if nums[i] > target {
+		if nums[i] > target { 
 			break
 		}
-
 		c = append(c, nums[i])
-		findcombinationSum(nums, target-nums[i], i, c, res)
+		findcombinationSum(nums, target-nums[i], i, c, res) 
 		c = c[:len(c)-1]
 	}
 }
