@@ -1,35 +1,53 @@
 func reorderList(head *ListNode) {
 	slow, fast := head, head
-	var tail *ListNode
+	l1 := head
+
+	// prev tail of first
+	// fast tail of second
+	// l1 head of first
+	// slow head of second
+	var prev *ListNode
 	for fast != nil && fast.Next != nil {
-		tail = slow
+		prev = slow
 		slow = slow.Next
 		fast = fast.Next.Next
 	}
-	if tail != nil {
-		tail.Next = nil
+
+	// break connection with second
+	if prev != nil {
+		prev.Next = nil
 	}
-	var secondHead *ListNode
-	fast = slow
-	for fast != nil {
-		slow = fast
-		fast = fast.Next
-		slow.Next = secondHead
-		secondHead = slow
+
+	l2 := reverse(slow)
+	merge(l1, l2)
+}
+
+func reverse(head *ListNode) *ListNode {
+	var prev *ListNode
+	cur := head
+	for cur != nil {
+		next := cur.Next
+		cur.Next = prev
+		prev = cur
+		cur = next
 	}
-	firstHead := head
-	var p1, p2 *ListNode
-	for firstHead != nil && secondHead != nil {
-		p1 = firstHead.Next
-		p2 = secondHead.Next
-		firstHead.Next = secondHead
-		secondHead.Next = p1
-		if p1 == nil {
-			secondHead.Next = p2
+
+	return prev
+}
+
+func merge(l1, l2 *ListNode) {
+	for l1 != nil {
+		l1Next := l1.Next
+		l2Next := l2.Next
+
+		l1.Next = l2
+		l2.Next = l1Next
+		if l1Next == nil {
+			l2.Next = l2Next
 			break
 		}
-		firstHead = p1
-		secondHead = p2
+
+		l1 = l1Next
+		l2 = l2Next
 	}
-	return
 }
