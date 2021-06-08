@@ -1,27 +1,34 @@
 func threeSum(nums []int) [][]int {
-	var ret [][]int
+	var res [][]int
 	sort.Ints(nums)
-	for i := 0; i < len(nums)-2; i++ {
-		j, k := i+1, len(nums)-1
-		if i > 0 && nums[i] == nums[i-1] {
-			continue
-		}
-		for j < k {
-			if nums[i]+nums[j]+nums[k] == 0 {
-				ret = append(ret, []int{nums[i], nums[j], nums[k]})
-				j++
 
-				// increase cause to duplicate
-				for j < k && nums[j] == nums[j-1] {
-					j++
+	for i := 0; i < len(nums)-2; i++ {
+		if i == 0 || (i > 0 && nums[i] != nums[i-1]) {
+			low := i + 1
+			high := len(nums) - 1
+			sum := 0 - nums[i]
+
+			for low < high {
+				if nums[low]+nums[high] == sum {
+					res = append(res, []int{nums[i], nums[low], nums[high]})
+					for low < high && nums[low] == nums[low+1] {
+						low++
+					}
+
+					for low < high && nums[high] == nums[high-1] {
+						high--
+					}
+
+					low++
+					high--
+				} else if nums[low]+nums[high] < sum {
+					low++
+				} else {
+					high--
 				}
-			} else if nums[i]+nums[j]+nums[k] < 0 {
-				j++
-			} else {
-				k--
 			}
 		}
 	}
 
-	return ret
+	return res
 }
