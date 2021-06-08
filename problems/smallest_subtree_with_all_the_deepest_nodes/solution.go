@@ -1,5 +1,5 @@
 func subtreeWithAllDeepest(root *TreeNode) *TreeNode {
-	node,_:=dfs(root)
+	node, _ := dfs(root)
 	return node
 }
 
