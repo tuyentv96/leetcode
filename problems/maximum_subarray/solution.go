@@ -1,20 +1,18 @@
 func maxSubArray(nums []int) int {
-	if len(nums) < 1 {
-		return 0
+	res := -(1 << 31)
+	sum := 0
+	for i := range nums {
+		sum = max(nums[i], sum+nums[i])
+		res = max(res, sum)
 	}
 
-	var maxSoFar, max = nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if nums[i]+max > nums[i] {
-			max = max + nums[i]
-		} else {
-			max = nums[i]
-		}
+	return res
+}
 
-		if max > maxSoFar {
-			maxSoFar = max
-		}
+func max(a, b int) int {
+	if a > b {
+		return a
 	}
 
-	return maxSoFar
+	return b
 }
