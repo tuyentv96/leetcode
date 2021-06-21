@@ -1,30 +1,28 @@
-func max(a,b int) int{
-    if a>b{
-        return a
-    }
-    
-    return b
+func rob(nums []int) int {
+	if len(nums) == 1 {
+		return nums[0]
+	}
+
+	dp_i2 := nums[0]
+	dp_i1 := Max(nums[0], nums[1])
+	if len(nums) == 2 {
+		return dp_i1
+	}
+
+	dp_i := Max(dp_i1, dp_i2+nums[2])
+	for i := 2; i < len(nums); i++ {
+		dp_i = Max(dp_i1, dp_i2+nums[i])
+		dp_i2 = dp_i1
+		dp_i1 = dp_i
+	}
+
+	return dp_i
 }
 
-func rob(nums []int) int {
-    n:=len(nums)
-    dp:=make([]int,n)
-    
-    if n==0{
-        return 0
-    }
-    
-    if n>0{
-        dp[0]=nums[0]
-    }
-    
-    if n>1{
-        dp[1]=max(dp[0],nums[1])
-    }
-    
-    for i:=2;i<n;i++{
-        dp[i]=max(dp[i-2]+nums[i],dp[i-1])
-    }
-    
-    return dp[n-1]
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+
+	return b
 }
