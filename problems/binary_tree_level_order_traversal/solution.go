@@ -7,21 +7,43 @@
  * }
  */
 func levelOrder(root *TreeNode) [][]int {
-    res:=make([][]int,0)
-    traversal(root,&res,0)
-    return res
+    if root==nil{
+        return [][]int{}
+    }
+    
+    depth:=maxDepth(root)
+    // var result [][]int
+    result:=make([][]int,depth)
+    helper(root,&result,0)
+    return result
 }
 
-func traversal(root *TreeNode,res *[][]int,level int){
+func helper(root *TreeNode,result *[][]int,level int){
     if root==nil{
         return
     }
     
-    if len(*res)<=level{
-        *res=append(*res,make([]int,0))
+    // if len(*result)<=level{
+    //     *result=append(*result,[]int{})
+    // }
+    
+    (*result)[level]=append((*result)[level],root.Val)
+    helper(root.Left,result,level+1)
+    helper(root.Right,result,level+1)
+}
+
+func maxDepth(root *TreeNode) int{
+    if root==nil{
+        return 0
     }
     
-    (*res)[level]=append((*res)[level],root.Val)
-    traversal(root.Left,res,level+1)
-    traversal(root.Right,res,level+1)
+    return max(maxDepth(root.Left),maxDepth(root.Right)) + 1
+}
+
+func max(a,b int) int{
+    if a>b{
+        return a
+    }
+    
+    return b
 }
