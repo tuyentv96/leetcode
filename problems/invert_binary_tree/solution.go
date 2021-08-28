@@ -7,13 +7,17 @@
  * }
  */
 func invertTree(root *TreeNode) *TreeNode {
+    helper(root)
+    return root
+}
+
+
+func helper(root *TreeNode) {
     if root==nil{
-        return nil
+        return
     }
     
     root.Left,root.Right=root.Right,root.Left
-    invertTree(root.Right)
-    invertTree(root.Left)
-    
-    return root
+    helper(root.Left)
+    helper(root.Right)
 }
