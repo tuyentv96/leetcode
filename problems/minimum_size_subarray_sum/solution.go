@@ -1,22 +1,33 @@
-func minSubArrayLen(s int, nums []int) int {
-	var sum int
-	var min, l, r int
-	for r = 0; r < len(nums); r++ {
-		sum += nums[r]
-		for l <= r && sum >= s {
-			tmp := r - l + 1
-			if min == 0 {
-				min = tmp
-			}
+func minSubArrayLen(target int, nums []int) int {
+    const maxInt = 1<<32 - 1
+    n:=len(nums)
+    start:=0
+    sum:=0
+    res:=maxInt
+    hasValue:=false
+    
+    for end:=0;end<n;end++{
+        sum+=nums[end]
+        
+        for sum>=target && start<=end{
+            res=min(res,end-start+1)
+            sum-=nums[start]
+            start++
+            hasValue=true
+        }
+    }
+    
+    if !hasValue{
+        return 0
+    }
+    
+    return res
+}
 
-			if min > tmp {
-				min = tmp
-			}
-
-			sum -= nums[l]
-			l++
-		}
-	}
-
-	return min
+func min(a,b int) int{
+    if a<b{
+        return a
+    }
+    
+    return b
 }
