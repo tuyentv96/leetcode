@@ -1,34 +1,37 @@
 func countComponents(n int, edges [][]int) int {
-    graph:=make([][]int,n)
-    
-    for i:=0;i<len(edges);i++{
-        graph[edges[i][0]]=append(graph[edges[i][0]],edges[i][1])
-        graph[edges[i][1]]=append(graph[edges[i][1]],edges[i][0])
+    parent:=make([]int,n)
+
+    for i:=0;i<n;i++{
+        parent[i]=i
     }
     
-    visited:=make([]bool,n)
-    memo:=make([]int,n)
-    count:=0
+    for i:=0;i<len(edges);i++{
+        union(parent,edges[i][0],edges[i][1])
+    }
     
+    count:=0
     for i:=0;i<n;i++{
-        if !visited[i]{
+        if parent[i]==i{
             count++
-            dfs(graph,visited,memo,i)
         }
     }
     
     return count
 }
 
-func dfs(graph [][]int,visited []bool,memo []int, node int){
-    if visited[node]{
-        return
+func find(parent []int,x int) int{
+    if parent[x]!=x{
+        parent[x]=find(parent,parent[x])
     }
     
-    visited[node]=true
-    for i:=0;i<len(graph[node]);i++{
-        dfs(graph,visited,memo,graph[node][i])
-    }
+    return parent[x]
+}
+
+func union(parent []int,x,y int) {
+    px:=find(parent,x)
+    py:=find(parent,y)
     
-    return
+    if px!=py{
+        parent[px]=py
+    }
 }
