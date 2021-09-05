@@ -1,23 +1,16 @@
 func validTree(n int, edges [][]int) bool {
-    graph:=make([][]int,n)
-    
-    for i:=0;i<len(edges);i++{
-        a,b:=edges[i][0],edges[i][1]
-        graph[a]=append(graph[a],b)
-        graph[b]=append(graph[b],a)
-    }
-    
-    visited:=make([]bool,n)
-    
-    // check graph has cycle
-    if isCycle(graph,visited,0,-1){
+    if len(edges)!=n-1{
         return false
     }
-
     
-    // check graph is connected
+    parent:=make([]int,n)
+    
     for i:=0;i<n;i++{
-        if !visited[i]{
+        parent[i]=i
+    }
+    
+    for i:=0;i<len(edges);i++{
+        if !union(parent,edges[i][0],edges[i][1]){
             return false
         }
     }
@@ -26,18 +19,20 @@ func validTree(n int, edges [][]int) bool {
 }
 
 
-func isCycle(graph [][]int,visited []bool, node int,parent int) bool{
-    if visited[node]{
-        return true
+func find(parent []int,i int) int{
+    if parent[i]!=i{
+        parent[i]=find(parent,parent[i])
     }
     
-    visited[node]=true
+    return parent[i]
+}
 
-    for i:=0;i<len(graph[node]);i++{
-        v:=graph[node][i]
-        if v!=parent && isCycle(graph,visited,v,node){
-            return true
-        }
+func union(parent []int,x,y int) bool{
+    px:=find(parent,parent[x])
+    py:=find(parent,parent[y])
+    if px!=py{
+        parent[px]=py
+        return true
     }
     
     return false
