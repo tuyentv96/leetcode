@@ -2,25 +2,25 @@ var directions = [][]int{{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{
 
 
 type Queue struct{
-    arr [][]int
+    list *list.List
 }
 
 func NewQueue() *Queue{
-    return &Queue{arr:make([][]int,0)}
+    return &Queue{list: list.New()}
 }
 
 func (q *Queue) Enqueue(e []int) {
-    q.arr=append(q.arr,e)
+    q.list.PushBack(e)
 }
 
 func (q *Queue) Dequeue() []int{
-    e:=q.arr[0]
-    q.arr=q.arr[1:]
-    return e
+    e:=q.list.Front()
+    q.list.Remove(e)
+    return e.Value.([]int)
 }
 
 func (q *Queue) IsEmpty() bool{
-    return len(q.arr)==0
+    return q.list.Len()==0
 }
 
 func shortestPathBinaryMatrix(grid [][]int) int {
