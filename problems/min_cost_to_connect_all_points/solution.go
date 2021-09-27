@@ -1,50 +1,43 @@
+const intMax = 1<<32
+
 func minCostConnectPoints(points [][]int) int {
-    edges:=make([][]int,0)
     n:=len(points)
-    
+    keys:=make([]int,n)
+    visited:=make([]bool,n)
     for i:=0;i<n;i++{
-        for j:=i+1;j<n;j++{
-            edges=append(edges,[]int{i,j,abs(points[i][0]-points[j][0]) + abs(points[i][1]-points[j][1])})
+        keys[i]=intMax
+    }
+    
+    keys[0]=0
+    visited[0]=true
+    cost:=0
+    for i:=0;i<n;i++{
+        idx:=minKey(keys,visited)
+        visited[idx]=true
+        cost+=keys[idx]
+        
+        for j:=0;j<n;j++{
+            v:=abs(points[idx][0]-points[j][0])+abs(points[idx][1]-points[j][1])
+            if !visited[j] && (v < keys[j]){
+                keys[j]=v
+            }
         }
     }
     
-    sort.Slice(edges,func (a,b int)bool{
-        return edges[a][2]<edges[b][2]
-    })
+    return cost
+}
+
+func minKey(keys []int,visited []bool) int{
+    min,idx:=intMax,0
     
-    parent:=make([]int,n)
-    
-    for i:=0;i<n;i++{
-        parent[i]=i    
-    }
-    
-    result:=0
-    for i:=0;i<len(edges);i++{
-        x,y,cost:=edges[i][0],edges[i][1],edges[i][2]
-        if union(parent,x,y){
-            result+=cost
+    for i:=0;i<len(keys);i++{
+        if !visited[i] && keys[i]<min{
+            min=keys[i]
+            idx=i
         }
     }
     
-    return result
-}
-
-func find(parent []int,i int) int{
-    if parent[i]!=i{
-        parent[i]=find(parent,parent[i])
-    }
-    
-    return parent[i]
-}
-
-func union(parent []int,x,y int) bool{
-    px,py:=find(parent,x),find(parent,y)
-    if px!=py{
-        parent[px]=py
-        return true
-    }
-    
-    return false
+    return idx
 }
 
 func abs(a int) int{
