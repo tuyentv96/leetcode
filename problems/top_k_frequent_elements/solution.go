@@ -1,60 +1,58 @@
 func topKFrequent(nums []int, k int) []int {
-	m := buildFreqMap(nums)
-	uniqueArray := buildUniqueArray(m)
-	n := len(uniqueArray)
-	quickSelect(uniqueArray, m, 0, n-1, n-k)
-	return uniqueArray[n-k : n]
+    frequentMap:=buildFrequentMap(nums)
+    frequentArray:=buildFrequentArray(frequentMap)
+    
+    for i:=k/2-1;i>=0;i--{
+        heapify(frequentArray,frequentMap,i,k)
+    }
+    
+    for i:=k;i<len(frequentArray);i++{
+        element:=frequentArray[i]
+        beginElement:=frequentArray[0]
+        
+        if frequentMap[element]>frequentMap[beginElement]{
+            frequentArray[0]=element
+            heapify(frequentArray,frequentMap,0,k)
+        }
+    }
+    
+    return frequentArray[:k]
 }
 
-func quickSelect(nums []int, m map[int]int, left, right, index int) int {
-	if left < right {
-		pivot := partition(nums, m, left, right)
-		if pivot == index {
-			return pivot
-		}
-
-		if index < pivot {
-			return quickSelect(nums, m, left, pivot-1, index)
-		} else {
-			return quickSelect(nums, m, pivot+1, right, index)
-		}
-	}
-
-	return 0
+func buildFrequentMap(nums []int) map[int]int{
+    result:=make(map[int]int)
+    for i:=0;i<len(nums);i++{
+        result[nums[i]]++
+    }
+    
+    return result
 }
 
-func buildUniqueArray(m map[int]int) []int {
-	var result []int
-	for k, _ := range m {
-		result = append(result, k)
-	}
-
-	return result
+func buildFrequentArray(frequentMap map[int]int) []int{
+    result:=make([]int,len(frequentMap))
+    i:=0
+    for k:=range frequentMap{
+        result[i]=k
+        i++
+    }
+    
+    return result
 }
 
-func partition(nums []int, m map[int]int, left, right int) int {
-	j := left
-	pivot := right
-	for i := left; i < right; i++ {
-		if m[nums[i]] < m[nums[pivot]] {
-			swap(nums, i, j)
-			j++
-		}
-	}
-
-	swap(nums, j, pivot)
-	return j
-}
-
-func buildFreqMap(nums []int) map[int]int {
-	m := make(map[int]int)
-	for i := 0; i < len(nums); i++ {
-		m[nums[i]]++
-	}
-
-	return m
-}
-
-func swap(nums []int, i, j int) {
-	nums[i], nums[j] = nums[j], nums[i]
+func heapify(nums []int,frequentMap map[int]int,i int,n int){
+    smallest:=i
+    left,right:=2*i+1,2*i+2
+    
+    for left<n && frequentMap[nums[left]]<frequentMap[nums[smallest]]{
+        smallest=left
+    }
+    
+    for right<n && frequentMap[nums[right]]<frequentMap[nums[smallest]]{
+        smallest=right
+    }
+    
+    if smallest!=i{
+        nums[i],nums[smallest]=nums[smallest],nums[i]
+        heapify(nums,frequentMap,smallest,n)
+    }
 }
