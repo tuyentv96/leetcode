@@ -1,24 +1,25 @@
 func deleteAndEarn(nums []int) int {
-    var points [10001]int
-    
-    for i:=0;i<len(nums);i++{
-        points[nums[i]]+=nums[i]
-    }
-    
-    prev,cur:=0,0
-    for i:=0;i<10000;i++{
-        temp:=cur
-        cur=max(prev+points[i],cur)
-        prev=temp
-    }
-    
-    return cur
+	points := make([]int, 10001)
+
+	for i := range nums {
+		points[nums[i]] += nums[i]
+	}
+
+	cur := 0
+	prev := 0
+	for i := 0; i <= 10000; i++ {
+		temp := cur
+		cur = max(cur, prev+points[i])
+		prev = temp
+	}
+
+	return cur
 }
 
-func max(a,b int) int{
-    if a>b{
-        return a
-    }
-    
-    return b
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+
+	return b
 }
