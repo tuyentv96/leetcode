@@ -1,14 +1,15 @@
 func coinChange(coins []int, amount int) int {
+    max:=amount+1
     dp:=make([]int,amount+1)
-    for i:=0;i<len(dp);i++{
-        dp[i]=amount+1
+    
+    for i:=1;i<len(dp);i++{
+        dp[i]=max
     }
     
-    dp[0]=0
     for i:=1;i<=amount;i++{
         for j:=0;j<len(coins);j++{
-            if coins[j]<=i{
-                dp[i]=min(dp[i],dp[i-coins[j]]+1)
+            if coins[j] <= i{
+                dp[i]=min(dp[i],dp[i-coins[j]] + 1)
             }
         }
     }
@@ -27,5 +28,3 @@ func min(a,b int) int{
     
     return b
 }
-
-// 1,2,5
