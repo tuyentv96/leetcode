@@ -1,20 +1,23 @@
 from queue import PriorityQueue
 
 class Solution:
+    ListNode.__eq__ = lambda self, other: self.val == other.val
+    ListNode.__lt__ = lambda self, other: self.val < other.val
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        ListNode.__lt__ = lambda self, other: self.val < other.val
-        head = point = ListNode(0)
-        q = PriorityQueue()
+        head = tail = ListNode(0)
+        queue = PriorityQueue()
+        
         for l in lists:
             if l:
-                q.put((l.val,l))
-
-        while not q.empty():
-            val, node = q.get()
-            point.next = node
-            point = point.next
+                queue.put((l.val, l))
+                
+        while not queue.empty():
+            val,node = queue.get()
+            tail.next = node
+            tail = tail.next
             node = node.next
             if node:
-                q.put((node.val,node))
+                queue.put((node.val, node))
 
         return head.next
+                
