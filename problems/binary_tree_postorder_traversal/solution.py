@@ -18,9 +18,9 @@ class Solution:
                 cur = cur.left
             else:
                 cur = stack[-1]
-                if cur.right is None or cur.right == prev:
-                    result.append(cur.val)
+                if cur.right is None or prev == cur.right:
                     stack.pop()
+                    result.append(cur.val)
                     prev = cur
                     cur = None
                 else:
