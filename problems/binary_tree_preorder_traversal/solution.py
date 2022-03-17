@@ -10,14 +10,14 @@ class Solution:
         result = []
         if root is None:
             return []
-        
+
         stack.append(root)
         while stack:
-            root = stack.pop()
-            result.append(root.val)
-            if root.right is not None:
-                stack.append(root.right)
-            if root.left is not None:
-                stack.append(root.left)
+            cur = stack.pop()
+            result.append(cur.val)
+            if cur.right is not None:
+                stack.append(cur.right)
+            if cur.left is not None:
+                stack.append(cur.left)
         
         return result
