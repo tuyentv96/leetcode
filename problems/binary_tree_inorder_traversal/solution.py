@@ -15,10 +15,10 @@ class Solution:
         while stack or cur:
             if cur:
                 stack.append(cur)
-                cur=cur.left
+                cur = cur.left
             else:
-                cur=stack.pop()
+                cur = stack.pop()
                 result.append(cur.val)
-                cur=cur.right
+                cur = cur.right
         
         return result
