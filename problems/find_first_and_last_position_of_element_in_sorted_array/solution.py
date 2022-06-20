@@ -11,9 +11,8 @@ class Solution:
         while lo < hi:
             mid = lo + (hi - lo) // 2
             if a[mid] < x:
-                lo = mid +1
-            else:
-                hi = mid
+                lo = mid + 1
+            else: hi = mid
         return lo
             
     def bisect_right(self, a, x):
@@ -21,8 +20,8 @@ class Solution:
         while lo < hi:
             mid = lo + (hi - lo) // 2
             if a[mid] <= x:
-                lo = mid +1
-            else:
-                hi = mid
+                lo = mid + 1
+            else: hi = mid
+            
         return lo
             
