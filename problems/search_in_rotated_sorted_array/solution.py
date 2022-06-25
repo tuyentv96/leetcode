@@ -7,14 +7,14 @@ class Solution:
                 return mid
             
             if nums[mid] >= nums[lo]:
-                if target >= nums[lo] and target < nums[mid]:
+                if nums[mid] >= target and target >= nums[lo]:
                     hi = mid - 1
                 else:
                     lo = mid + 1
             else:
-                if target > nums[mid] and target <= nums[hi]:
+                if nums[mid] <= target and target <= nums[hi]:
                     lo = mid + 1
                 else:
                     hi = mid - 1
-        
+
         return -1
