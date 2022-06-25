@@ -15,13 +15,14 @@ class Solution:
         while stack:
             root, targetSum = stack.pop()
             targetSum -= root.val
-            if root.left is None and root.right is None and targetSum == 0:
+            
+            if targetSum == 0 and not root.left and not root.right:
                 return True
+            
             if root.left:
-                stack.append((root.left, targetSum))    
+                stack.append((root.left, targetSum))
+                
             if root.right:
                 stack.append((root.right, targetSum))
-
-
 
         return False
