@@ -8,23 +8,26 @@ class Solution:
             mid = lo + (hi - lo) // 2
             if arr[mid] < x:
                 lo = mid + 1
-            else:
-                hi = mid
+            else: hi = mid
         
-        # arr[lo-1] < x < arr[lo]
-        left = lo - 1
-        right = lo
+        left, right = lo-1, lo
+        print(left, right)
         
         while right - left - 1 < k:
+            print("db", left, right)
             if left == -1:
-                right += 1
+                right+=1
                 continue
-            
-            if right == len(arr) or (arr[right] - x >= x - arr[left]):
-                left -= 1
-            else:
-                right += 1
+            if right == len(arr):
+                left-=1
+                continue
+                
+            if abs(arr[left] - x) <= abs(arr[right] - x):
+                left-=1
+            else: right+=1
         
+        print("ans", left+1, right)
+
         return arr[left+1:right]
         
         
