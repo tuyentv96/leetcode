@@ -3,18 +3,14 @@ class Solution:
         if len(prices) < 2:
             return 0
 
-        rs = 0
-        min_buy = prices[0]
-        cur_max = 0
+        min_price = prices[0]
+        max_profit = 0
+
+        for i in range(1, len(prices)):
+            price = prices[i]
+            min_price = min(min_price, price)
+
+            max_profit = max(max_profit, price - min_price)
         
-        for p in prices[1:]:
-            if p - min_buy > 0:
-                cur_max = max(cur_max, p - min_buy)
-                rs = max(rs, cur_max)
-            
-            if p < min_buy:
-                min_buy = p
-        
-        return rs
-        
-        
+        return max_profit
+
