@@ -1,15 +1,15 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        count = [0] * 26
+        freq = [0 for i in range(26)]
+
         for c in s:
-            count[ord(c) - ord("a")] += 1
-        
+            freq[ord(c) - 97] += 1
+
         for c in t:
-            count[ord(c) - ord("a")] -= 1
-        
-        for v in count:
-            if v != 0:
+            freq[ord(c) - 97] -= 1
+
+        for count in freq:
+            if count != 0:
                 return False
 
         return True
-        
