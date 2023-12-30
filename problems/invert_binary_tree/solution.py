@@ -4,20 +4,13 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from collections import deque
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        queue = deque()
-        queue.append(root)
-        
-        while queue:
-            cur = queue.popleft()
-            if not cur:
-                continue
+        if not root:
+            return None
+            
+        left = root.left
+        root.left = self.invertTree(root.right)
+        root.right = self.invertTree(left)
 
-            queue.append(cur.left)
-            queue.append(cur.right)
-            cur.left, cur.right = cur.right, cur.left
-            
         return root
-            
