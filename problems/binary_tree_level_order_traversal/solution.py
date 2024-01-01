@@ -4,29 +4,27 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from queue import Queue
+# Input: root = [3,9,20,null,null,15,7]
+# queue = [3], arr=[3]
+# queue = [9, 20], arr = [9,20]
+# queue = [15, 7], arr = [15,7]
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        result = []
-    
-        if root is None:
-            return result
-
-        q = Queue()
-        q.put(root)
-        
-        while not q.empty():
-            level = []
-            for _ in range(q.qsize()):
-                node = q.get()
-                level.append(node.val)
+        if not root:
+            return []
+        queue = deque()
+        queue.appendleft(root)
+        res = []
+        while len(queue) > 0:
+            size = len(queue)
+            arr = []
+            for i in range(size):
+                node = queue.pop()
+                arr.append(node.val)
                 if node.left:
-                    q.put(node.left)
+                    queue.appendleft(node.left)
                 if node.right:
-                    q.put(node.right)
-            
-            result.append(level)
+                    queue.appendleft(node.right)    
+            res.append(arr)             
         
-        return result
-                
-        
+        return res
