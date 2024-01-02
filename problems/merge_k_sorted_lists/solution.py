@@ -1,23 +1,36 @@
-from queue import PriorityQueue
-
+from heapq import *
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    ListNode.__eq__ = lambda self, other: self.val == other.val
-    ListNode.__lt__ = lambda self, other: self.val < other.val
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        head = tail = ListNode(0)
-        queue = PriorityQueue()
-        
-        for l in lists:
-            if l:
-                queue.put((l.val, l))
-                
-        while not queue.empty():
-            val,node = queue.get()
-            tail.next = node
-            tail = tail.next
-            node = node.next
-            if node:
-                queue.put((node.val, node))
+        heap = []
+        queue = deque()
+        root = None
+        cur = None
+        prev = None
 
-        return head.next
-                
+        for l in lists:
+            queue.appendleft(l)
+
+        while len(queue) > 0 or len(heap) > 0:
+            prev = cur
+            for i in range(len(queue)):
+                l = queue.pop()
+                if l:
+                    heappush(heap, l.val)
+                    if l.next:
+                        queue.appendleft(l.next)
+            
+            if heap:
+                val = heappop(heap)
+
+                cur = ListNode(val)
+                if not root:
+                    root = cur
+                if prev:
+                    prev.next = cur
+            
+        return root
