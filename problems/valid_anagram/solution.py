@@ -1,15 +1,11 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        freq = [0 for i in range(26)]
+        sf = [0] * 26
+        tf = [0] * 26
 
         for c in s:
-            freq[ord(c) - 97] += 1
-
+            sf[ord(c) - ord('a')] += 1
         for c in t:
-            freq[ord(c) - 97] -= 1
+            tf[ord(c) - ord('a')] += 1
 
-        for count in freq:
-            if count != 0:
-                return False
-
-        return True
+        return sf == tf
